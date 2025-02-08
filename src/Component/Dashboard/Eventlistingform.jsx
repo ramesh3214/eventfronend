@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import Authcontext from "../User/Authcontext/Authcontext";
 
-const EventListingForm = () => {
+const Eventlistingform = () => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -13,13 +14,13 @@ const EventListingForm = () => {
     category: "",
   });
   const [loading, setLoading] = useState(false);
+  const { user } = useContext(Authcontext);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const Navigate=useNavigate();
+  const Navigate = useNavigate();
 
   const categories = ["Conference", "Startup", "Workshop", "Community"];
 
-  
   const today = new Date().toISOString().split("T")[0];
 
   const handleChange = (e) => {
@@ -32,6 +33,11 @@ const EventListingForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      Navigate("/login");
+      return;
+    }
     setLoading(true);
     setError("");
     setSuccess("");
@@ -67,7 +73,7 @@ const EventListingForm = () => {
     } finally {
       setLoading(false);
     }
-    Navigate("/")
+    Navigate("/");
   };
 
   return (
@@ -271,4 +277,4 @@ const EventListingForm = () => {
   );
 };
 
-export default EventListingForm;
+export default Eventlistingform;
