@@ -1,14 +1,10 @@
-# React + Vite
+# OSM Events - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh.
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh.
+This project is the frontend for **OSM Events**, a dynamic event management application that allows users to browse, register, and manage events. The frontend is built using React with Vite, styled with Tailwind CSS, and enhanced with Framer Motion for smooth animations and responsive design.
 
 ## Overview
 
-**OSM Events** is a dynamic event management application that allows users to browse, register, and manage events. The application supports real-time event updates using Socket.IO and provides a modern, responsive UI built with React and Tailwind CSS. The backend is powered by Node.js, Express, and MongoDB.
+**OSM Events - Frontend** offers a modern and responsive UI that interacts with the backend via API calls and Socket.IO for real-time updates. It provides users with an engaging experience to explore events and register seamlessly.
 
 ## Table of Contents
 
@@ -17,7 +13,6 @@ Currently, two official plugins are available:
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
-- [API Endpoints](#api-endpoints)
 - [Tech Stack](#tech-stack)
 - [Screenshots](#screenshots)
 - [License](#license)
@@ -25,107 +20,57 @@ Currently, two official plugins are available:
 
 ## Features
 
-- **Real-Time Updates:** Stay informed with live event updates via Socket.IO.
-- **Responsive UI:** Modern design built with React and Tailwind CSS that works seamlessly across devices.
-- **Event Management:** Browse, register, and manage events with ease.
-- **Registration System:** Register for events with an updated count of total registered participants.
-- **Backend API:** Robust data handling powered by Node.js, Express, and MongoDB.
+- **Real-Time Updates:** Live event updates via Socket.IO.
+- **Responsive UI:** A modern interface built with React and Tailwind CSS that adapts to all devices.
+- **Event Browsing:** Easily browse and filter events.
+- **User Registration:** Register for events and view your booking details.
+- **Smooth Animations:** Enhanced animations with Framer Motion.
 
 ## Installation
 
 ### Prerequisites
 
 - Node.js (version 14.x or higher)
-- MongoDB
 - npm or yarn
 
 ### Steps
 
-1. **Clone the repository:**
+1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/your-repo-name.git
-   cd your-repo-name
-2.**Install dependencies for the backend**
-  bash:
-  cd backend
-  npm install
-
-3. **Install dependencies for the frontend:**  
-cd ../frontend
+   git clone https://github.com/ramesh3214/eventfronend.git
+   cd eventfronend
+2. **Install Dependencies:**
+```bash
 npm install
 
-Configuration
-Environment Variables:
-Create a .env file in your backend folder with the following variables (adjust values as needed):
+3.**Configuration**
+No extensive configuration is required for the frontend. If your API endpoints are hard-coded, ensure they match your backend's URL. You may also add environment variables as needed.
 
-.env
-PORT=8080
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-Socket.IO Setup:
-Ensure your backend is configured to use Socket.IO for real-time updates.
+4.Usage
+Running in Development
+Start the development server:
 
-Usage
-Running the Backend
-Start the backend server by running:
+```bash
 
-bash
-
-cd backend
 npm run dev
-Running the Frontend
-Start the frontend by running:
+The application will be available at http://localhost:3000.
 
-bash
-cd frontend
-npm run dev
-Then, open your browser and navigate to http://localhost:3000 to view the application.
+Production Build
+To create a production build:
 
-API Endpoints
-Events
-GET /api/eventslist
-Returns a list of events sorted by date.
+```bash
 
-POST /api/events
-Creates a new event.
-Request Body:
+npm run build
 
-json
-{
-  "name": "Event Name",
-  "description": "Event Description",
-  "date": "2023-12-31",
-  "time": "18:00",
-  "image": "image_url",
-  "location": "Event Location",
-  "category": "Conference",
-  "totalregistered": 0
-}
-Registrations
-POST /api/register
-Registers a user for an event and increments the event's total registration count.
-Request Body:
-
-json
-{
-  "userId": "user_id",
-  "eventId": "event_id",
-  "eventName": "Event Name",
-  "eventCategory": "Event Category",
-  "name": "User Name",
-  "email": "user@example.com",
-  "number": "1234567890"
-}
-GET /api/mybooking
-Retrieves all booking registrations.
 
 Tech Stack
-Frontend: React, Vite, Tailwind CSS, Framer Motion
-Backend: Node.js, Express
-Database: MongoDB, Mongoose
-Real-Time: Socket.IO
+Framework: React (with Vite)
+Styling: Tailwind CSS
+Animations: Framer Motion
+Real-Time: Socket.IO Client
 Utilities: Axios, ESLint
-
+Screenshots
+Include screenshots or GIFs here to showcase your frontend UI and key features.
 
 License
 This project is licensed under the MIT License.
@@ -134,3 +79,4 @@ Contact
 For any questions or feedback, please contact:
 Email: sahramesh1501@gmail.com
 GitHub: ramesh3214
+
