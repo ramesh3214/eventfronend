@@ -1,0 +1,12 @@
+@import "tailwindcss";
+:root {
+  --navbar: "#ff5733";
+  --navbarText: "#ffffff";
+  --bodyBg: "#ffffff";
+  --headingText: "#2c3e50";
+  --primaryText: "#333333";
+  --cardBg: "#F5f5f5";
+  --secondaryText: "#555555";
+  --buttonBg: "#0F97FB";
+  --hoverColor: "#FAA737";
+}

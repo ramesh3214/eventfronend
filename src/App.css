@@ -1,0 +1,46 @@
+
+
+@font-face {
+    font-family: 'outfit-bold';
+    src: local('outfit'), url(./Fonts/Outfit-Bold.ttf) format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'outfit-extrabold';
+    src: local('outfit'), url(./Fonts/Outfit-ExtraBold.ttf) format('truetype');
+  }
+  @font-face {
+    font-family: 'outfit-semibold';
+    src: local('outfit'), url(./Fonts/Outfit-SemiBold.ttf) format('truetype');
+  }
+  @font-face {
+    font-family: 'outfit-thin';
+    src: local('outfit'), url(./Fonts/Outfit-Thin.ttf) format('truetype');
+  }
+  @font-face {
+    font-family: 'outfit-medium';
+    src: local('outfit'), url(./Fonts/Outfit-Medium.ttf) format('truetype');
+  }
+  @font-face {
+    font-family: 'outfit-regular';
+    src: local('outfit'), url(./Fonts/Montserrat-Regular.ttf) format('truetype');
+  }
+  @font-face {
+    font-family: 'poppins-regular';
+    src: local('poppins'), url(./Fonts/Poppins-Regular.ttf) format('truetype');
+  }
+  @font-face {
+    font-family: 'poppins-medium';
+    src: local('poppins'), url(./Fonts/Poppins-Medium.ttf) format('truetype');
+  }
+  @font-face {
+    font-family: 'poppins-semibold';
+    src: local('poppins'), url(./Fonts/Poppins-SemiBold.ttf) format('truetype');
+  }
+  @font-face {
+    font-family: 'outfit-thin';
+    src: local('outfit'), url(./Fonts/Outfit-Thin.ttf) format('truetype');
+  }
+  
+  
+  
