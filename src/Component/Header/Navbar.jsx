@@ -31,7 +31,7 @@ const Navbar = () => {
                     style={{fontFamily:"outfit-bold"}}
                     className="text-[#D4AF37]"
                   >
-                    OSM EVENTS
+                    FOOD MANAGEMENT
                   </Link>
                   <div className="hidden md:flex items-center space-x-6">
                     <Link
@@ -39,7 +39,7 @@ const Navbar = () => {
                       style={{fontFamily:"outfit-semibold"}}
                       className="relative group text-gray-800 hover:text-[#D4AF37] transition-colors duration-200 font-medium text-sm"
                     >
-                      Eventform
+                      Catering Form
                       <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-200 group-hover:w-full"></span>
                     </Link>
                     <Link

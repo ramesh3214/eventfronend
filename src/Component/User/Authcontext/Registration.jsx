@@ -1,103 +1,36 @@
-import React, { useContext, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import AuthContext from "./Authcontext";
+import React from "react";
+import { useLocation, Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
-  FiUser,
+  FiMapPin,
   FiMail,
   FiSmartphone,
-  FiCalendar,
-  FiMapPin,
-  FiUsers,
-  FiAlertCircle,
   FiCheckCircle,
+  FiAlertCircle,
+  FiUsers
 } from "react-icons/fi";
-import { motion } from "framer-motion";
 
-const RegistrationPage = () => {
+const CateringDetail = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
   const { event } = location.state || {};
-
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    number: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!user) {
-      navigate("/login", { state: { from: location } });
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-    setSuccess("");
-
-    try {
-      const response = await fetch(
-        "https://eventfrontend-nep5.onrender.com/api/register",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userId: user.id,
-            eventId: event._id,
-            eventName: event.name,
-            eventCategory: event.category,
-            name: formData.name,
-            email: formData.email,
-            number: formData.number,
-          }),
-        }
-      );
-      if (!response.ok) throw new Error("Registration failed");
-
-      const registrationData = await response.json();
-      setSuccess("Registration successful!");
-      setFormData({ name: "", email: "", number: "" });
-
-      navigate("/booking-confirmation", {
-        state: { registration: registrationData },
-      });
-    } catch (err) {
-      setError(
-        err.message ||
-          "There was an error submitting your registration. Please try again."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (!event) {
     return (
-      <div className="min-h-screen pt-28 flex items-center justify-center bg-gradient-to-br from-white to-blue-50">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-blue-50">
         <div className="text-center p-8 max-w-md">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            No Event Selected
+            No Catering Service Selected
           </h1>
           <p className="text-gray-600 mb-6">
-            Please select an event to register from the events page.
+            Please select a catering service from our listing.
           </p>
-          <button
-            style={{ fontFamily: "outfit-bold" }}
-            onClick={() => navigate("/event")}
+          <Link
+            to="/event"
             className="bg-[#D4AF37] text-white px-6 py-2 rounded-lg hover:bg-[#cfa83a] transition-colors"
+            style={{ fontFamily: "outfit-bold" }}
           >
-            Browse Events
-          </button>
+            Back to Catering
+          </Link>
         </div>
       </div>
     );
@@ -108,204 +41,150 @@ const RegistrationPage = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-7xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden"
+        className="max-w-7xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-100"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="bg-gradient-to-br from-blue-500 to-blue-400 p-8 text-white">
-            <div className="space-y-6">
-              <h1
-                style={{ fontFamily: "outfit-medium" }}
-                className="text-4xl font-bold leading-tight"
-              >
-                {event.name}
-              </h1>
-              <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
-                <img
-                  src={event.image}
-                  alt={event.name}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        <div className="grid grid-cols-1 lg:grid-cols-2">
+        
+          <div className="relative lg:border-r border-gray-200">
+            <div className="relative h-96 overflow-hidden">
+              <img
+                src={event.image_url}
+                alt={event.name}
+                className="w-full h-full object-cover rounded-t-2xl lg:rounded-l-2xl"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
+                <h2 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
+                  {event.name}
+                </h2>
+                <div className="flex items-center gap-2">
+                  <FiMapPin className="w-5 h-5 text-[#D4AF37]" />
+                  <span className="text-gray-200">{event.location}</span>
+                </div>
               </div>
+            </div>
+
+            <div className="p-8 space-y-6">
               <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <FiCalendar className="w-6 h-6 text-white" />
-                  <span
-                    style={{ fontFamily: "outfit-medium" }}
-                    className="text-lg"
+                {event.email && (
+                  <a 
+                    href={`mailto:${event.email}`}
+                    className="flex items-center gap-4 hover:bg-gray-50 p-3 rounded-lg transition-colors"
                   >
-                    {new Date(event.date).toLocaleDateString("en-US", {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}{" "}
-                    • {event.time}
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <FiMapPin className="w-6 h-6 text-white" />
-                  <span
-                    style={{ fontFamily: "outfit-medium" }}
-                    className="text-lg"
-                  >
-                    {event.location}
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <FiUsers className="w-6 h-6 text-white" />
-                  <span
-                    style={{ fontFamily: "outfit-medium" }}
-                    className="text-lg"
-                  >
-                    {event.totalregistered.toLocaleString()} Registered
-                  </span>
-                </div>
+                    <div className="p-2 bg-[#D4AF37]/10 rounded-lg">
+                      <FiMail className="w-6 h-6 text-[#D4AF37]" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Email</p>
+                      <p className="text-gray-700 font-medium">{event.email}</p>
+                    </div>
+                  </a>
+                )}
+
+                {event.phone && (
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 bg-[#D4AF37]/10 rounded-lg">
+                      <FiSmartphone className="w-6 h-6 text-[#D4AF37]" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Phone</p>
+                      <p className="text-gray-700 font-medium">{event.phone}</p>
+                    </div>
+                  </div>
+                )}
+
+                {event.foodAvailable !== undefined && (
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 bg-[#D4AF37]/10 rounded-lg">
+                      {event.foodAvailable ? (
+                        <FiCheckCircle className="w-6 h-6 text-green-600" />
+                      ) : (
+                        <FiAlertCircle className="w-6 h-6 text-red-600" />
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Food Availability</p>
+                      <p className="text-gray-700 font-medium">
+                        {event.foodAvailable ? "Available" : "Not Available"}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {event.totalregistered && (
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 bg-[#D4AF37]/10 rounded-lg">
+                      <FiUsers className="w-6 h-6 text-[#D4AF37]" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Total Registered</p>
+                      <p className="text-gray-700 font-medium">
+                        {event.totalregistered.toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
-              <p className="text-gray-100 leading-relaxed">
-                {event.description}
-              </p>
             </div>
           </div>
 
           
-          <div className="p-8 lg:p-12">
-            <div className="max-w-md mx-auto">
-              <h2
+          <div className="p-8 lg:p-12 bg-white">
+            <div className="max-w-2xl mx-auto">
+              <h1
+                className="text-4xl font-bold text-gray-800 mb-8 relative after:content-[''] after:block after:w-16 after:h-1 after:bg-[#D4AF37] after:mt-4"
                 style={{ fontFamily: "outfit-bold" }}
-                className="text-3xl font-bold text-gray-800 mb-8"
               >
-                Complete Your Registration
-              </h2>
-
-              {error && (
-                <div
-                  style={{ fontFamily: "outfit-medium" }}
-                  className="mb-6 p-4 bg-red-50 text-red-700 rounded-lg flex items-center gap-3"
-                >
-                  <FiAlertCircle className="w-5 h-5" />
-                  {error}
-                </div>
-              )}
-
-              {success && (
-                <div
-                  style={{ fontFamily: "outfit-medium" }}
-                  className="mb-6 p-4 bg-green-50 text-green-700 rounded-lg flex items-center gap-3"
-                >
-                  <FiCheckCircle className="w-5 h-5" />
-                  {success}
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label
-                    style={{ fontFamily: "outfit-medium" }}
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Full Name
-                  </label>
-                  <div className="relative">
-                    <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="John Doe"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#D4AF37] focus:border-[#D4AF37]"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    style={{ fontFamily: "outfit-medium" }}
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <FiMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="john@example.com"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#D4AF37] focus:border-[#D4AF37]"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    style={{ fontFamily: "outfit-medium" }}
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Phone Number
-                  </label>
-                  <div className="relative">
-                    <FiSmartphone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="tel"
-                      name="number"
-                      value={formData.number}
-                      onChange={handleChange}
-                      placeholder="+1 (555) 123-4567"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#D4AF37] focus:border-[#D4AF37]"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="submit"
-                  disabled={loading}
-                  className="w-full py-3 cursor-pointer bg-[#D4AF37] hover:bg-[#cfa83a] text-white font-semibold rounded-lg transition duration-300 flex items-center justify-center gap-2"
-                >
-                  {loading ? (
-                    <>
-                      <svg
-                        className=" cursor-pointer animate-spin h-5 w-5 text-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        ></path>
-                      </svg>
-                      Processing...
-                    </>
-                  ) : (
-                    "Complete Registration"
-                  )}
-                </motion.button>
-              </form>
-
-              {user && (
-                <p
-                  style={{ fontFamily: "outfit-medium" }}
-                  className="mt-6 text-sm text-gray-500 text-center"
-                >
-                  Logged in as {user.name}
+                About Our Service
+              </h1>
+              
+              <div className="space-y-6">
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  At <span className="font-semibold text-[#D4AF37]">{event.name}</span>, 
+                  we specialize in crafting unforgettable culinary experiences. 
+                  Nestled in the heart of <span className="font-semibold">{event.location}</span>, 
+                  our team transforms events into lasting memories through:
                 </p>
+                
+                <ul className="grid gap-4 sm:grid-cols-2">
+                  <li className="flex items-center gap-3">
+                    <FiCheckCircle className="flex-shrink-0 w-5 h-5 text-[#D4AF37]" />
+                    <span className="text-gray-600">Premium Ingredients</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <FiCheckCircle className="flex-shrink-0 w-5 h-5 text-[#D4AF37]" />
+                    <span className="text-gray-600">Custom Menus</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <FiCheckCircle className="flex-shrink-0 w-5 h-5 text-[#D4AF37]" />
+                    <span className="text-gray-600">Professional Staff</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <FiCheckCircle className="flex-shrink-0 w-5 h-5 text-[#D4AF37]" />
+                    <span className="text-gray-600">Event Planning</span>
+                  </li>
+                </ul>
+
+                <div className="space-y-4">
+                  <h3 className="text-xl font-semibold text-gray-800 mt-8">
+                    Our Commitment
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    We combine culinary artistry with meticulous service to create 
+                    seamless events. From intimate gatherings to grand celebrations, 
+                    our attention to detail ensures every aspect exceeds expectations.
+                  </p>
+                </div>
+              </div>
+
+              {event.email && (
+                <a
+                  href={`mailto:${event.email}`}
+                  className="mt-12 inline-flex items-center justify-center gap-2 bg-[#D4AF37] text-white px-8 py-3.5 rounded-lg hover:bg-[#c0a042] transition-all transform hover:-translate-y-0.5 shadow-md hover:shadow-lg"
+                  style={{ fontFamily: "outfit-bold" }}
+                >
+                  <FiMail className="w-5 h-5" />
+                  Contact Us
+                </a>
               )}
             </div>
           </div>
@@ -315,4 +194,4 @@ const RegistrationPage = () => {
   );
 };
 
-export default RegistrationPage;
+export default CateringDetail;

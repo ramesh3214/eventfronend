@@ -9,25 +9,22 @@ import Signup from "./Component/User/Authcontext/Signup";
 
 import Signin from "./Component/User/Authcontext/Signin";
 import Dashboard from "./Component/User/Authcontext/Dashboard";
-import BookingConfirmationPage from "./Component/Dashboard/BookingConfirmPage";
-import './App.css';
+
+import "./App.css";
 
 function App() {
   return (
     <>
-   
-    <Navbar />
-    
-      
+      <Navbar />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/event" element={<Eventlist />} />
         <Route path="/eventform" element={<EventListingForm />} />
         <Route path="/registration" element={<RegistrationForm />} />
-        <Route path="/signup" element={<Signup/>} />
-          <Route path="/login" element={<Signin/>} />
-          <Route path="/profile" element={<Dashboard/>} />
-          <Route path="/booking-confirmation" element={<BookingConfirmationPage/>} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Signin />} />
+        <Route path="/profile" element={<Dashboard />} />
       </Routes>
     </>
   );

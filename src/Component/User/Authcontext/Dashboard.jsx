@@ -23,26 +23,6 @@ const Dashboard = () => {
       navigate("/login");
       return;
     }
-
-    const fetchBookings = async () => {
-      try {
-        const response = await fetch(
-          "https://eventfrontend-nep5.onrender.com/api/mybooking"
-        );
-        const data = await response.json();
-
-        const userBookings = data.filter(
-          (booking) => booking.userId === user.id
-        );
-        setBookings(userBookings);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBookings();
   }, [user, navigate]);
 
   if (!user) return null;
@@ -67,7 +47,7 @@ const Dashboard = () => {
                 style={{ fontFamily: "outfit-semibold" }}
                 className="mt-2 text-lg"
               >
-                Here you can manage your bookings and account details.
+                Here you can manage your account details.
               </p>
             </div>
             <motion.button
@@ -136,85 +116,6 @@ const Dashboard = () => {
               {user.number || "Not provided"}
             </p>
           </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-2xl shadow-2xl p-8"
-        >
-          <div className="mb-6">
-            <h2
-              style={{ fontFamily: "outfit-bold", textAlign: "center" }}
-              className="text-2xl  font-bold text-gray-800"
-            >
-              Your Bookings
-            </h2>
-          </div>
-
-          {loading ? (
-            <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="animate-pulse bg-gray-100 h-20 rounded-xl"
-                />
-              ))}
-            </div>
-          ) : error ? (
-            <div className="text-center py-8 text-red-500 text-lg">{error}</div>
-          ) : bookings.length === 0 ? (
-            <div
-              style={{ fontFamily: "outfit-medium" }}
-              className="text-center py-8 text-gray-500 text-lg"
-            >
-              No bookings found. Start by registering for an event!
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-6">
-              {bookings.map((booking) => (
-                <motion.div
-                  key={booking.id}
-                  whileHover={{ scale: 1.02 }}
-                  className="p-6 border border-gray-200 rounded-xl hover:shadow-2xl transition-shadow"
-                >
-                  <div className="flex flex-col md:flex-row justify-between items-center">
-                    <div>
-                      <h3
-                        style={{ fontFamily: "outfit-bold" }}
-                        className="text-2xl font-semibold text-gray-800 mb-2"
-                      >
-                        {booking.eventName}
-                      </h3>
-                      <div className="flex flex-col sm:flex-row sm:space-x-8 text-gray-600 text-lg">
-                        <div
-                          style={{ fontFamily: "outfit-semibold" }}
-                          className="flex items-center gap-2"
-                        >
-                          <FiCalendar className="w-5 h-5" />
-                          <span>{booking.eventTiming}</span>
-                        </div>
-                        <div className="flex items-center gap-2 mt-2 sm:mt-0">
-                          <FiMapPin className="w-5 h-5" />
-                          <span style={{ fontFamily: "outfit-medium" }}>
-                            {booking.eventlocation}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 md:mt-0">
-                      <span
-                        style={{ fontFamily: "outfit-medium" }}
-                        className="px-4 py-2 bg-green-100 text-green-700 rounded-full text-lg font-medium"
-                      >
-                        Confirmed
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          )}
         </motion.div>
       </div>
     </div>
